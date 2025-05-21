@@ -1,3 +1,4 @@
+# Bibliotecas para manipulação de dados, visualização e machine learning
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -9,18 +10,23 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 
+# Estilo e tamanho padrão dos gráficos
 sns.set_style("whitegrid")
 plt.rcParams['figure.figsize'] = (10, 6)
 
+# Início do programa
 print("--- Início da Classificação de Flores Iris com KNN ---")
 
+# Carregamento e visualização inicial do dataset Iris
 iris = load_iris()
 print("\nChaves do dataset Iris:", iris.keys())
 
+# Criação do DataFrame com os dados e rótulos
 df_iris = pd.DataFrame(data=iris.data, columns=iris.feature_names)
 df_iris['species_name'] = iris.target_names[iris.target]
 df_iris['target'] = iris.target
 
+# Exibição de dados básicos
 print("\nPrimeiras 5 linhas do Dataset Iris:")
 print(df_iris.head())
 
@@ -30,37 +36,41 @@ df_iris.info()
 print("\nEstatísticas descritivas das características numéricas:")
 print(df_iris.describe())
 
+# Visualização gráfica com pairplot
 print("\nGerando pairplot para visualização das relações entre características...")
 sns.pairplot(df_iris, hue='species_name')
 plt.suptitle('Relação entre as Características das Flores Iris por Espécie', y=1.02)
 plt.show()
 print("Pairplot gerado. Observe como as espécies se agrupam")
 
+# Separação entre dados de entrada (X) e saída (y)
 X = df_iris.drop(['species_name', 'target'], axis=1)
 y = df_iris['target']
 
 print(f"\nFormato de X (Características): {X.shape}")
 print(f"Formato de y (Alvo): {y.shape}")
 
+# Divisão em conjuntos de treino e teste
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=42)
 
 print(f"\nFormato do Conjunto de Treinamento (X_train, y_train): {X_train.shape}, {y_train.shape}")
 print(f"Formato do Conjunto de Teste (X_test, y_test): {X_test.shape}, {y_test.shape}")
 
+# Escalonamento dos dados
 scaler = StandardScaler()
-
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
 print("\nPrimeiras 5 linhas de X_train_scaled (após escalonamento):")
 print(X_train_scaled[:5])
 
+# Treinamento do modelo KNN com K=5
 knn = KNeighborsClassifier(n_neighbors=5)
-
 knn.fit(X_train_scaled, y_train)
 
 print("\nModelo KNN treinado com sucesso com K=5!")
 
+# Avaliação do modelo com K=5
 y_pred = knn.predict(X_test_scaled)
 
 print("\nPrevisões realizadas no conjunto de teste (primeiras 10):")
@@ -68,6 +78,7 @@ print(y_pred[:10])
 print("Valores reais do conjunto de teste (primeiras 10):")
 print(y_test.values[:10])
 
+# Métricas de avaliação
 accuracy = accuracy_score(y_test, y_pred)
 print(f"\nAcurácia do modelo KNN (K=5): {accuracy:.4f}")
 
@@ -79,6 +90,7 @@ class_report = classification_report(y_test, y_pred, target_names=iris.target_na
 print("\nRelatório de Classificação (K=5):")
 print(class_report)
 
+# Visualização da matriz de confusão
 plt.figure(figsize=(8, 6))
 sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=iris.target_names, yticklabels=iris.target_names)
 plt.xlabel('Previsto')
@@ -87,6 +99,7 @@ plt.title('Matriz de Confusão do Modelo KNN (K=5)')
 plt.show()
 print("Matriz de Confusão para K=5 gerada.")
 
+# Validação cruzada para encontrar o melhor valor de K
 k_values = list(range(1, 21))
 cv_scores = [] 
 
@@ -102,6 +115,7 @@ optimal_k = k_values[optimal_k_index]
 print(f"\nAcurácias médias de validação cruzada para diferentes K: {cv_scores}")
 print(f"O valor ótimo de K encontrado é: {optimal_k}")
 
+# Gráfico de comparação das acurácias para diferentes valores de K
 plt.figure(figsize=(10, 6))
 plt.plot(k_values, cv_scores, marker='o', linestyle='-')
 plt.title('Acurácia Média da Validação Cruzada vs. Valor de K')
@@ -114,10 +128,11 @@ plt.legend()
 plt.show()
 print("Gráfico de Acurácia vs. K gerado")
 
+# Re-treinamento do modelo com o valor ótimo de K
 knn_optimal = KNeighborsClassifier(n_neighbors=optimal_k)
-
 knn_optimal.fit(X_train_scaled, y_train)
 
+# Avaliação do modelo otimizado
 y_pred_optimal = knn_optimal.predict(X_test_scaled)
 
 accuracy_optimal = accuracy_score(y_test, y_pred_optimal)
@@ -131,6 +146,7 @@ class_report_optimal = classification_report(y_test, y_pred_optimal, target_name
 print("\nRelatório de Classificação do Modelo Otimizado:")
 print(class_report_optimal)
 
+# Visualização da matriz de confusão do modelo otimizado
 plt.figure(figsize=(8, 6))
 sns.heatmap(conf_matrix_optimal, annot=True, fmt='d', cmap='Greens', xticklabels=iris.target_names, yticklabels=iris.target_names)
 plt.xlabel('Previsto')
@@ -139,4 +155,5 @@ plt.title(f'Matriz de Confusão do Modelo KNN (K={optimal_k})')
 plt.show()
 print(f"Matriz de Confusão para K={optimal_k} gerada.")
 
+# Fim do programa
 print("\n--- Classificação de Flores Iris com KNN Concluída ---")
