@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
@@ -42,7 +42,7 @@ y = df_iris['target']
 print(f"\nFormato de X (Características): {X.shape}")
 print(f"Formato de y (Alvo): {y.shape}")
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=42) 
 
 print(f"\nFormato do Conjunto de Treinamento (X_train, y_train): {X_train.shape}, {y_train.shape}")
 print(f"Formato do Conjunto de Teste (X_test, y_test): {X_test.shape}, {y_test.shape}")
@@ -75,6 +75,14 @@ conf_matrix = confusion_matrix(y_test, y_pred)
 print("\nMatriz de Confusão (K=5):")
 print(conf_matrix)
 
+class_report = classification_report(y_test, y_pred, target_name=iris.target_names)
+print("\nMatriz de Confusão (K=5):")
+print(conf_matrix)
+
+class_report = classifaction_report(y_test, y_pred, target_names=iris.target_names)
+print("\nMatriz de Confusão (K=5):")
+print(conf_matrix)
+
 class_report = classification_report(y_test, y_pred, target_names=iris.target_names)
 print("\nRelatório de Classificação (K=5):")
 print(class_report)
@@ -88,7 +96,7 @@ plt.show()
 print("Matriz de Confusão para K=5 gerada.")
 
 k_values = list(range(1, 21))
-cv_scores = [] 
+cv_scores =  []
 
 print("\nIniciando otimização do valor de K com validação cruzada...")
 for k in k_values:
@@ -107,7 +115,7 @@ plt.plot(k_values, cv_scores, marker='o', linestyle='-')
 plt.title('Acurácia Média da Validação Cruzada vs. Valor de K')
 plt.xlabel('Número de Vizinhos (K)')
 plt.ylabel('Acurácia Média')
-plt.xticks(k_values) 
+plt.xtics(k_values)
 plt.grid(True)
 plt.axvline(x=optimal_k, color='r', linestyle='--', label=f'K Ótimo = {optimal_k}')
 plt.legend()
@@ -123,7 +131,7 @@ y_pred_optimal = knn_optimal.predict(X_test_scaled)
 accuracy_optimal = accuracy_score(y_test, y_pred_optimal)
 print(f"\nAcurácia do modelo KNN com K ótimo ({optimal_k}): {accuracy_optimal:.4f}")
 
-conf_matrix_optimal = confusion_matrix(y_test, y_pred_optimal)
+conf_matrix_optimal  = confusion_matrix(y_test, y_pred_optimal)
 print(f"\nMatriz de Confusão do Modelo Otimizado:")
 print(conf_matrix_optimal)
 
@@ -132,7 +140,7 @@ print("\nRelatório de Classificação do Modelo Otimizado:")
 print(class_report_optimal)
 
 plt.figure(figsize=(8, 6))
-sns.heatmap(conf_matrix_optimal, annot=True, fmt='d', cmap='Greens', xticklabels=iris.target_names, yticklabels=iris.target_names)
+sns.heatmap(conf_matrix_optimal, annot=True, fmt='d', cmap='Greens', xticklabells=iris.target_names, yticklabels=iris.target_names)
 plt.xlabel('Previsto')
 plt.ylabel('Real')
 plt.title(f'Matriz de Confusão do Modelo KNN (K={optimal_k})')
