@@ -25,10 +25,10 @@ Neste projeto, o KNN é utilizado para classificar as flores Iris.
 
 O repositório contém os seguintes arquivos:
 
-├── main.py                    # Código principal contendo exploração, treinamento, avaliação e otimização
-├── README.md                  # Arquivo de descrição do projeto
-├── requirements.txt           # Lista de dependências Python
-└── .gitignore                 # Arquivos e pastas a serem ignorados pelo Git
+├── main.py            # Código principal: exploração, treinamento, avaliação e otimização
+├── README.md          # Descrição do projeto
+├── requirements.txt   # Lista de dependências do Python
+└── .gitignore         # Arquivos e pastas ignorados pelo Git
 
 
 ## 🛠️ Tecnologias Utilizadas
