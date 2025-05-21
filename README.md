@@ -113,5 +113,5 @@ Contribuições são bem-vindas! Se você tiver sugestões, melhorias ou encontr
 
 ---
 
-**Autor:** [Kairo Kaléo/DeveloperKairo]
+**Autor:** Kairo Kaléo/DeveloperKairo
 **Data:** Maio de 2025
